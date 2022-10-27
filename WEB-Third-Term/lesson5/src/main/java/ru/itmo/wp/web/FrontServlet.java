@@ -186,12 +186,6 @@ public class FrontServlet extends HttpServlet {
         setTemplate(pageClass, response, view, method, true);
     }
 
-    private void setLanguage(HttpServletRequest request) {
-        if (!(request.getParameter("lang") == null)) {
-            LANGUAGE = request.getParameter("lang");
-        }
-    }
-
     private Template newTemplate(String templateName, boolean isDefaultLanguage) throws ServletException {
         Template template = null;
 
