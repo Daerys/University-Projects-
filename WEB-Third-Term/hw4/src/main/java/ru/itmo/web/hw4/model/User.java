@@ -4,7 +4,6 @@ public class User {
     private final long id;
     private final String handle;
     private final String name;
-    private long cntPost = 0;
 
     public User(long id, String handle, String name) {
         this.id = id;
@@ -23,10 +22,5 @@ public class User {
     public String getName() {
         return name;
     }
-    public long getCntPost() {
-        return cntPost;
-    }
-
-    public void incPostCount() { cntPost++; }
 
 }

@@ -99,10 +99,11 @@
                 <div class="info">
                     <h1 class="name"><a href="/user?user_id=${u.id}">${u.name}</a></h1>
                     <ul>
-                        <li>${u.id}</li>
-                        <li>${u.handle}</li>
-                        <li>${u.name}</li>
-                        <li>${u.cntPost}</li>
+                        <#assign cnt = countPosts(posts, u.id)>
+                        <li>user id: ${u.id}</li>
+                        <li>user handel: ${u.handle}</li>
+                        <li>user name: ${u.name}</li>
+                        <li>posts count: <a href="/posts?user_id=#{u.id}">${cnt}</a></li>
                     </ul>
                 </div>
                 <div class="photo"><img src="/img/icon.png" alt="Icon"></div>
@@ -190,4 +191,14 @@
             <#assign foo = true>
         </#if>
     </#list>
+</#function>
+
+<#function countPosts items uid>
+    <#assign cnt = 0>
+    <#list items as item>
+        <#if item.user_id == uid>
+            <#assign cnt = cnt + 1>
+        </#if>
+    </#list>
+    <#return cnt/>
 </#function>

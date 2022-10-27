@@ -70,11 +70,6 @@ public class DataUtil {
             if (Long.toString(user.getId()).equals(request.getParameter("logged_user_id"))) {
                 data.put("user", user);
             }
-            for (Post post : POSTS) {
-                if (user.getId() == post.getUser_id()) {
-                    user.incPostCount();
-                }
-            }
         }
     }
 }
