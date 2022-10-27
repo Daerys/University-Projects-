@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -48,10 +49,9 @@ public class FreemarkerServlet extends HttpServlet {
 
         Template template;
         try {
-            template = freemarkerConfiguration.getTemplate(URLDecoder.decode(request.getRequestURI(), UTF_8) + ".ftlh");
+            template = freemarkerConfiguration.getTemplate(getUri(request, response) + ".ftlh");
         } catch (TemplateNotFoundException ignored) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return;
+            template = freemarkerConfiguration.getTemplate("404page.ftlh");
         }
 
         Map<String, Object> data = getData(request);
@@ -63,6 +63,14 @@ public class FreemarkerServlet extends HttpServlet {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private String getUri(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        if (request.getRequestURI().isEmpty() || request.getRequestURI().equals("/")) {
+            response.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
+            return "/index";
+        }
+        return URLDecoder.decode(request.getRequestURI(), UTF_8);
     }
 
     private Map<String, Object> getData(HttpServletRequest request) {

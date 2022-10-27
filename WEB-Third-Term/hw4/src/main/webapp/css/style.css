@@ -88,6 +88,7 @@ aside section .header:before {
 
 aside section .body {
     padding: 0.25rem;
+    font-size: 0.8rem;
 }
 
 aside section .footer {
@@ -101,6 +102,74 @@ aside section .footer a:after {
     content: " →";
 }
 
+.title {
+    color: darkblue;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.information {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+main article .body {
+    font-size: 0.9rem;
+    padding-left: 0.6rem;
+    border-left: 5px solid lightgray;
+    margin: 0.75em 0;
+}
+
+.attachment {
+    list-style-image: url(../img/paperclip-16x16.png);
+    vertical-align: middle;
+    font-size: 0.7rem;
+    padding-left: 22px;
+}
+
+.attachment a {
+    text-decoration: none;
+    color: #888 !important;
+}
+
+article .footer {
+    border-radius: var(--border-radius);
+    border: 1px solid #888;
+    padding-top: 0.4rem;
+    padding-bottom: 0.2rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    display: inline-block;
+    width: 98%;
+}
+
+
+.right {
+    float: right;
+}
+
+.left {
+    float: left;
+    display: inline-block;
+    text-align: center;
+}
+
+.positive-score {
+    color: green;
+    font-weight: bold;
+    position: relative;
+    top: -0.45rem;
+}
+
+.left img {
+    position: relative;
+    top: -0.1rem;
+}
+.right img {
+    position: relative;
+    top: 0.15rem;
+}
+
 main {
     margin-right: 21rem;
 }
@@ -110,6 +179,36 @@ footer {
     padding-top: 1rem;
     border-top: var(--boder);
     text-align: center;
+}
+
+
+.caption {
+    padding: 0.35rem;
+    padding-left: 0.6rem;
+}
+
+.datatable {
+    border: 1px lightgray;
+    background: #D9D9D9;
+    border-radius: var(--border-radius) var(--border-radius) 0rem 0rem;
+    font-size: 0.8rem;
+}
+
+table {
+    width: 100%;
+}
+
+tr {
+    text-align: center;
+    background: #F3F3F3;
+}
+
+td, th {
+    padding: 5px 10px;
+}
+
+th, tr:nth-child(even) {
+    background: white;
 }
 
 .profileBox .body {
@@ -152,4 +251,8 @@ footer {
 .invalid, .valid {
     font-size: 1.5rem;
     text-decoration: none;
+}
+
+.highlight {
+    border-bottom: #3B5998 solid 5px;
 }

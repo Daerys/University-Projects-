@@ -44,14 +44,19 @@
         </div>
         <nav>
             <#assign items=[
-            {"href": "/index", "name": "Home"},
-            {"href": "/misc/help", "name": "Help"},
-            {"href": "/contests", "name": "Contests"}
+            {"href": "/index", "name": "Home", "highlight": ["/index", "/"]},
+            {"href": "/misc/help", "name": "Help", "highlight": ["/misc/help"]},
+            {"href": "/contests", "name": "Contests", "highlight": ["/contests"]},
+            {"href": "/users", "name": "Users", "highlight": ["/users"]}
             ]/>
             <ul>
                 <#list items as item>
                     <li>
-                        <a href="${item.href}">${item.name}</a>
+                        <#if item.highlight?seq_contains(uri)>
+                            <a class="highlight" href="${item.href}">${item.name}</a>
+                        <#else>
+                            <a href="${item.href}">${item.name}</a>
+                        </#if>
                     </li>
                 </#list>
             </ul>
@@ -61,33 +66,15 @@
 
 <#macro sidebar>
     <aside>
-        <section>
-            <div class="header">Information</div>
-            <div class="body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores enim expedita facilis
-                fugiat ipsum iste nobis reprehenderit tempore ut voluptatibus?
-            </div>
-            <div class="footer">
-                <a href="#">View all</a>
-            </div>
-        </section>
-        <section>
-            <div class="header">Information</div>
-            <div class="body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores enim expedita facilis
-                fugiat ipsum iste nobis reprehenderit tempore ut voluptatibus?
-            </div>
-            <div class="footer">
-                <a href="#">View all</a>
-            </div>
-        </section>
-        <section>
-            <div class="header">Information</div>
-            <div class="body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores enim expedita facilis
-                fugiat ipsum iste nobis reprehenderit tempore ut voluptatibus?
-            </div>
-            <div class="footer">
-                <a href="#">View all</a>
-            </div>
-        </section>
+        <#list posts as p>
+            <section>
+                <div class="header">${p.title}</div>
+                <@postBody p true/>
+                <div class="footer">
+                    <a href="/post?post_id=${p.id}">View all</a>
+                </div>
+            </section>
+        </#list>
     </aside>
 </#macro>
 
@@ -102,6 +89,77 @@
     <a href="/user?handle=${user.handle}">${user.name}</a>
 </#macro>
 
+<#macro userpage u key value>
+<#-- @ftlvariable name="u" type="ru.itmo.web.hw4.model.User" -->
+    <#assign pr = findPrevious(users, key, value)!/>
+    <#assign nx = findNext(users, key, value)!/>
+    <#if u?has_content>
+        <div class="profileBox">
+            <div class="body">
+                <div class="info">
+                    <h1 class="name"><a href="/user?user_id=${u.id}">${u.name}</a></h1>
+                    <ul>
+                        <li>${u.id}</li>
+                        <li>${u.handle}</li>
+                        <li>${u.name}</li>
+                        <li>${u.cntPost}</li>
+                    </ul>
+                </div>
+                <div class="photo"><img src="/img/icon.png" alt="Icon"></div>
+            </div>
+            <div class="footer">
+
+                <#if !pr?has_content || pr.id == u.id>
+                    <a class="invalid">←</a>
+                <#else>
+                    <a class="valid" href="/user?handle=${pr.handle}">←</a>
+                </#if>
+                <#if nx?has_content>
+                    <a class="valid" href="/user?handle=${nx.handle}">→</a>
+                <#else>
+                    <a class="invalid">→</a>
+                </#if>
+            </div>
+        </div>
+    <#else> <h1>No such user.</h1></#if>
+</#macro>
+
+
+<#macro postBody p isShort>
+    <div class="body">
+        <#assign text = cutText(p.text, isShort)>
+        ${text}
+    </div>
+</#macro>
+
+<#macro post p isShort>
+    <article>
+        <#assign us = findBy(users, "id", p.user_id)>
+        <div class="title">${p.title}</div>
+        <div class="information">By <@userlink us /></div>
+        <@postBody p isShort/>
+        <div class="footer">
+            <div class="left">
+                <img src="img/voteup.png" title="Vote Up" alt="Vote Up"/>
+                <span class="positive-score">+1</span>
+                <img src="img/votedown.png" title="Vote Down" alt="Vote Down"/>
+            </div>
+            <div class="right">
+                <img src="img/date_16x16.png" title="Publish Time" alt="Publish Time"/>
+                2 days ago
+                <img src="img/comments_16x16.png" title="Comments" alt="Comments"/>
+                <a href="#">68</a>
+            </div>
+        </div>
+    </article>
+</#macro>
+
+<#function cutText text isShort>
+    <#if isShort && text?length gt 350>
+        <#return text?substring(0,349) + "..."/>
+    </#if>
+    <#return text>
+</#function>
 
 <#function findBy items key value>
     <#list items as item>
@@ -133,38 +191,3 @@
         </#if>
     </#list>
 </#function>
-
-<#macro userpage u key value>
-<#-- @ftlvariable name="u" type="ru.itmo.web.hw4.model.User" -->
-    <#assign p = findPrevious(users, key, value)!/>
-    <#assign n = findNext(users, key, value)!/>
-    <#if u?has_content>
-    <div class="profileBox">
-        <div class="body">
-            <div class="info">
-                <h1 class="name"><a href="/user?user_id=${u.id}">${u.name}</a></h1>
-                <ul>
-                    <li>${u.id}</li>
-                    <li>${u.handle}</li>
-                    <li>${u.name}</li>
-                </ul>
-            </div>
-            <div class="photo"><img src="/img/icon.png" alt="Icon"></div>
-        </div>
-        <div class="footer">
-
-            <#if !p?has_content || p.id == u.id>
-                <a class="invalid" href="/user?user_id=-1">←</a>
-            <#else>
-                <a class="valid" href="/user?handle=${p.handle}">←</a>
-            </#if>
-            <#if n?has_content>
-                <a class="valid" href="/user?handle=${n.handle}">→</a>
-            <#else>
-                <a class="invalid" href="/user?user_id=-1">→</a>
-            </#if>
-        </div>
-    </div>
-    <#else> <h1>No such user.</h1></#if>
-</#macro>
-
