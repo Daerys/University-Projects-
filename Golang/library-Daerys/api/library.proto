@@ -49,7 +49,7 @@ service Library {
   // Получение информации об авторе
   rpc GetAuthorInfo(GetAuthorInfoRequest) returns (GetAuthorInfoResponse) {
     option (google.api.http) = {
-      get: "/v1/library/author/{id}" // GET-запрос для получения информации об авторе
+      get: "/v1/library/author_info/{id}" // GET-запрос для получения информации об авторе
     };
   }
 

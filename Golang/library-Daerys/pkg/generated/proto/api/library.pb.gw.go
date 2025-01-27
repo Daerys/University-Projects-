@@ -377,7 +377,7 @@ func RegisterLibraryHandlerServer(ctx context.Context, mux *runtime.ServeMux, se
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/library.Library/GetAuthorInfo", runtime.WithHTTPPathPattern("/v1/library/author/{id}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/library.Library/GetAuthorInfo", runtime.WithHTTPPathPattern("/v1/library/author_info/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -527,7 +527,7 @@ func RegisterLibraryHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/library.Library/GetAuthorInfo", runtime.WithHTTPPathPattern("/v1/library/author/{id}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/library.Library/GetAuthorInfo", runtime.WithHTTPPathPattern("/v1/library/author_info/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -566,7 +566,7 @@ var (
 	pattern_Library_GetBookInfo_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "library", "book", "id"}, ""))
 	pattern_Library_RegisterAuthor_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "library", "author"}, ""))
 	pattern_Library_ChangeAuthorInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "library", "author", "id"}, ""))
-	pattern_Library_GetAuthorInfo_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "library", "author", "id"}, ""))
+	pattern_Library_GetAuthorInfo_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "library", "author_info", "id"}, ""))
 	pattern_Library_GetAuthorBooks_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"v1", "library", "author", "author_id", "books"}, ""))
 )
 

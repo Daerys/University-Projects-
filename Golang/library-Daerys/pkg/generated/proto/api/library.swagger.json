@@ -90,35 +90,6 @@
       }
     },
     "/v1/library/author/{id}": {
-      "get": {
-        "summary": "Получение информации об авторе",
-        "operationId": "Library_GetAuthorInfo",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/libraryGetAuthorInfoResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "Library"
-        ]
-      },
       "put": {
         "summary": "Изменение информации об авторе",
         "operationId": "Library_ChangeAuthorInfo",
@@ -150,6 +121,37 @@
             "schema": {
               "$ref": "#/definitions/LibraryChangeAuthorInfoBody"
             }
+          }
+        ],
+        "tags": [
+          "Library"
+        ]
+      }
+    },
+    "/v1/library/author_info/{id}": {
+      "get": {
+        "summary": "Получение информации об авторе",
+        "operationId": "Library_GetAuthorInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/libraryGetAuthorInfoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "tags": [

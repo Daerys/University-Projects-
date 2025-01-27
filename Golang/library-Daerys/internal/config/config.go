@@ -1,19 +1,37 @@
 package config
 
-const grpcHost = "localhost"
+import (
+	"os"
+)
 
-const grpcPort = "9090"
-
-const httpPort = "8080"
+const (
+	defaultGrpcHost    = "localhost"
+	defaultGrpcPort    = "9090"
+	defaultHttpPort    = "8080"
+	envGrpcPort        = "GRPC_PORT"
+	envGrpcGatewayPort = "GRPC_GATEWAY_PORT"
+)
 
 func MustGetGrpcAddr() string {
-	return ":" + grpcPort
+	port := os.Getenv(envGrpcPort)
+	if port == "" {
+		port = defaultGrpcPort
+	}
+	return ":" + port
 }
 
 func MustGetGrpcURL() string {
-	return grpcHost + ":" + grpcPort
+	port := os.Getenv(envGrpcPort)
+	if port == "" {
+		port = defaultGrpcPort
+	}
+	return defaultGrpcHost + ":" + port
 }
 
 func MustGetHttpAddr() string {
-	return ":" + httpPort
+	port := os.Getenv(envGrpcGatewayPort)
+	if port == "" {
+		port = defaultHttpPort
+	}
+	return ":" + port
 }
